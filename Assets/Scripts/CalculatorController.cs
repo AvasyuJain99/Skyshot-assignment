@@ -5,8 +5,8 @@ using TMPro;
 public class CalculatorController : MonoBehaviour
 {
     public TextMeshProUGUI resultText;
-    private int firstOperand;
-    private int secondOperand;
+    private float firstOperand;
+    private float secondOperand;
     private string arithmeticOperation;
 
     private void Start()
@@ -37,7 +37,7 @@ public class CalculatorController : MonoBehaviour
 
     public void CalculateResult()
     {
-        int result = 0;
+        float result = 0;
         switch (arithmeticOperation)
         {
             case "+":
