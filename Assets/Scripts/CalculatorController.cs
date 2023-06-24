@@ -20,6 +20,7 @@ public class CalculatorController : MonoBehaviour
     {
         if (arithmeticOperation == "")
         {
+           
             firstOperand = firstOperand * 10 + number;
             resultText.text = firstOperand.ToString();
         }
@@ -33,6 +34,7 @@ public class CalculatorController : MonoBehaviour
     public void EnterOperation(string op)
     {
         arithmeticOperation = op;
+        resultText.text += " " + arithmeticOperation + " ";
     }
 
     public void CalculateResult()
@@ -42,6 +44,7 @@ public class CalculatorController : MonoBehaviour
         {
             case "+":
                 result = firstOperand + secondOperand;
+                
                 break;
             case "-":
                 result = firstOperand - secondOperand;
