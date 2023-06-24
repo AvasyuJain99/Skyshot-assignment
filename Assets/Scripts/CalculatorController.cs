@@ -4,103 +4,74 @@ using UnityEngine;
 using TMPro;
 public class CalculatorController : MonoBehaviour
 {
-    public TextMeshProUGUI displayText;
-    private string currentNumber;
-    private float result;
-    private string currentOperation;
-    private bool decimalPressed;
+    public TextMeshProUGUI resultText;
+    private int firstOperand;
+    private int secondOperand;
+    private string arithmeticOperation;
 
     private void Start()
     {
-        ClearCalculation();
+        firstOperand = 0;
+        secondOperand = 0;
+        arithmeticOperation = "";
     }
 
-    public void EnterDigit(string value)
+    public void EnterDigit(int number)
     {
-        if (value == "+" || value == "-" || value == "*" || value == "/")
+        if (arithmeticOperation == "")
         {
-            SetOperation(value);
-        }
-        else if (value == "=")
-        {
-            CalculateResult();
-        }
-        else if (value == "C")
-        {
-            ClearCalculation();
-        }
-        else if (value == ".")
-        {
-            AddDecimal();
+            firstOperand = firstOperand * 10 + number;
+            resultText.text = firstOperand.ToString();
         }
         else
         {
-            AddDigit(value);
+            secondOperand = secondOperand * 10 + number;
+            resultText.text = secondOperand.ToString();
         }
     }
 
-    private void AddDigit(string digit)
+    public void EnterOperation(string op)
     {
-        currentNumber += digit;
-        UpdateDisplay();
+        arithmeticOperation = op;
     }
 
-    private void AddDecimal()
+    public void CalculateResult()
     {
-        if (!decimalPressed)
-        {
-            currentNumber += ".";
-            decimalPressed = true;
-            UpdateDisplay();
-        }
-    }
-
-    private void SetOperation(string operation)
-    {
-        currentOperation = operation;
-        float.TryParse(currentNumber, out result);
-        currentNumber = "";
-        decimalPressed = false;
-    }
-
-    private void CalculateResult()
-    {
-        float operand;
-        float.TryParse(currentNumber, out operand);
-
-        switch (currentOperation)
+        int result = 0;
+        switch (arithmeticOperation)
         {
             case "+":
-                result += operand;
+                result = firstOperand + secondOperand;
                 break;
             case "-":
-                result -= operand;
+                result = firstOperand - secondOperand;
                 break;
             case "*":
-                result *= operand;
+                result = firstOperand * secondOperand;
                 break;
             case "/":
-                result /= operand;
+                if (secondOperand != 0)
+                {
+                    result = firstOperand / secondOperand;
+                }
+                else
+                {
+                    Debug.Log("Cannot divide by zero!");
+                }
                 break;
         }
 
-        currentNumber = result.ToString();
-        currentOperation = "";
-        decimalPressed = false;
-        UpdateDisplay();
+        firstOperand = result;
+        secondOperand = 0;
+        arithmeticOperation = "";
+        resultText.text = result.ToString();
     }
 
-    private void ClearCalculation()
+    public void Clear()
     {
-        currentNumber = "";
-        result = 0;
-        currentOperation = "";
-        decimalPressed = false;
-        UpdateDisplay();
-    }
-
-    private void UpdateDisplay()
-    {
-        displayText.text = currentNumber;
+        firstOperand = 0;
+        secondOperand = 0;
+        arithmeticOperation = "";
+        resultText.text = "0";
     }
 }
