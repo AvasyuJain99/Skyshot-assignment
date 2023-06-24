@@ -28,11 +28,17 @@ public class CalculatorController : MonoBehaviour
         {
             secondOperand = secondOperand * 10 + number;
             resultText.text = secondOperand.ToString();
+
         }
     }
 
     public void EnterOperation(string op)
     {
+        if (secondOperand != 0)
+        {
+            CalculateResult();
+        }
+
         arithmeticOperation = op;
         resultText.text += " " + arithmeticOperation + " ";
     }
